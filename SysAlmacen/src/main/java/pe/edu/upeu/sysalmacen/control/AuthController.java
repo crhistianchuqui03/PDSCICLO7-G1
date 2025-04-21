@@ -33,12 +33,11 @@ public class AuthController {
     }
     @PostMapping("/register")
     public ResponseEntity<UsuarioDTO> register(@RequestBody @Valid UsuarioDTO.UsuarioCrearDto user) {
-        System.out.println("Passss...."+ user.rol());
+        println("Passss...."+ user.rol());
         UsuarioDTO createdUser = userService.register(user);
         final UserDetails userDetails = jwtUserDetailsService.loadUserByUsername(user.user());
         createdUser.setToken(jwtTokenUtil.generateToken(userDetails));
-        //createdUser.setClave("");
-        //createdUser.setToken(userAuthenticationProvider.createToken(createdUser));
+     
         return ResponseEntity.created(URI.create("/users/" + createdUser.getUser())).body(createdUser);
     }
 }

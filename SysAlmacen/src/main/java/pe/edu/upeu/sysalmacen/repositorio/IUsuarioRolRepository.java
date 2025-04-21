@@ -15,12 +15,10 @@ public interface IUsuarioRolRepository extends ICrudGenericoRepository<UsuarioRo
     SELECT ur.usuario FROM UsuarioRol ur 
     WHERE ur.usuario.user = :user and ur.usuario.clave=:clave
     """)
-    Usuario login(@Param("user") String user, @Param("clave") String clave);
-
+  
     @Query(value = """
     SELECT u.* FROM upeu_usuario_rol ur inner join upeu_usuario u 
     on (ur.usuario_id=u.id_usuario) where u.user=:username and u.clave=:clave
     """, nativeQuery = true)
-    Usuario loginOpt(@Param("username") String username, @Param("clave") String clave);*/
 }
 

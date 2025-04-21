@@ -4,7 +4,6 @@ import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
-import org.springframework.web.servlet.support.ServletUriComponentsBuilder;
 import pe.edu.upeu.sysalmacen.dtos.MarcaDTO;
 import pe.edu.upeu.sysalmacen.excepciones.CustomResponse;
 import pe.edu.upeu.sysalmacen.mappers.MarcaMapper;
@@ -20,9 +19,9 @@ import java.util.List;
 @RequestMapping("/marcas")
 //@CrossOrigin("*")
 public class MarcaController {
+
     private final IMarcaService marcaService;
     private final MarcaMapper marcaMapper;
-
 
     @GetMapping
     public ResponseEntity<List<MarcaDTO>> findAll() {
@@ -35,14 +34,16 @@ public class MarcaController {
         Marca obj = marcaService.findById(id);
         return ResponseEntity.ok(marcaMapper.toDTO(obj));
     }
-    /*
-    * Otra forma de llamar return ResponseEntity.created(location).build();
-    * */
+
     @PostMapping
     public ResponseEntity<CustomResponse> save(@Valid @RequestBody MarcaDTO dto) {
         Marca obj = marcaService.save(marcaMapper.toEntity(dto));
-        //URI location = ServletUriComponentsBuilder.fromCurrentRequest().path("/{id}").buildAndExpand(obj.getIdMarca()).toUri();
-        return ResponseEntity.ok(new CustomResponse(200,LocalDateTime.now(), (obj!=null?"true":"false"), String.valueOf(obj.getIdMarca())));
+        return ResponseEntity.ok(new CustomResponse(
+                200,
+                LocalDateTime.now(),
+                (obj != null ? "true" : "false"),
+                String.valueOf(obj.getIdMarca()))
+        );
     }
 
     @PutMapping("/{id}")
@@ -51,26 +52,10 @@ public class MarcaController {
         Marca obj = marcaService.update(id, marcaMapper.toEntity(dto));
         return ResponseEntity.ok(marcaMapper.toDTO(obj));
     }
-    /*
-    * Otra forma de retornar - return ResponseEntity.noContent().build();
-    * */
+
     @DeleteMapping("/{id}")
     public ResponseEntity<CustomResponse> delete(@PathVariable("id") Long id) {
-        CustomResponse operacion= marcaService.delete(id);
+        CustomResponse operacion = marcaService.delete(id);
         return ResponseEntity.ok(operacion);
     }
-
-    /*@GetMapping("/hateoas/{id}")
-    public EntityModel<MarcaDTO> findByIdHateoas(@PathVariable("id") Long id) {
-        EntityModel<MarcaDTO> resource = EntityModel.of(mapperUtil.map(service.findById(id), PatientDTO.class));
-
-        //generar link informativo
-        WebMvcLinkBuilder link1 = linkTo(methodOn(this.getClass()).findById(id));
-        WebMvcLinkBuilder link2 = linkTo(methodOn(MedicController.class).findAll());
-
-        resource.add(link1.withRel("patient-self-info"));
-        resource.add(link2.withRel("all-medic-info"));
-
-        return resource;
-    }*/
 }

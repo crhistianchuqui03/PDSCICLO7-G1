@@ -32,7 +32,7 @@ public class VentCarritoServiceImp extends CrudGenericoServiceImp<VentCarrito, L
     @Override
     public VentCarritoDTO saveD(VentCarritoDTO.VentCarritoCADTO dto) {
         VentCarrito to = ventCarritoMapper.toEntityFromCADTO(dto);
-        System.out.println("Llegooooooooo");
+        println("Llegooooooooo");
         Producto toA = productoRepository.findById(dto.producto()).orElseThrow(() -> new EntityNotFoundException("Producto no encontrado"));
         Usuario toB = usuarioRepository.findById(dto.usuario()).orElseThrow(() -> new EntityNotFoundException("Usuario no encontrado"));
         to.setProducto(toA);

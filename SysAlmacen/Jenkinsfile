@@ -10,7 +10,7 @@ pipeline {
         stage('Clone') {
             steps {
                 timeout(time: 2, unit: 'MINUTES'){
-                    git branch: 'main', credentialsId: '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', url: 'https://github.com/crhistianchuqui03/PDSCICLO7-G1'
+                    git branch: 'main', credentialsId: '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', url: 'https://github.com/crhistianchuqui03/PDSCICLO7-G1'.git
                 }
             }
         }

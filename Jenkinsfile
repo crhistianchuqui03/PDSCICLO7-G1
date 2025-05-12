@@ -10,22 +10,22 @@ pipeline {
         stage('Clone') {
             steps {
                 timeout(time: 2, unit: 'MINUTES'){
-                    git branch: 'main', credentialsId: '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', url: 'https://github.com/dmamanipar/SysEventos2.git'
+                    git branch: 'main', credentialsId: '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', url: 'https://github.com/crhistianchuqui03/PDSCICLO7-G1'
                 }
             }
         }
         stage('Build') {
             steps {
                 timeout(time: 8, unit: 'MINUTES'){
-                    sh "mvn -DskipTests clean package -f SysAsistenciaAn/pom.xml"
+                    sh "mvn -DskipTests clean package -f SysAlmacen/pom.xml"
                 }
             }
         }
         stage('Test') {
             steps {
-                timeout(time: 8, unit: 'MINUTES'){
+                timeout(time: 10, unit: 'MINUTES'){
                     // Se cambia <test> por <install> para que se genere el reporte de jacoco
-                    sh "mvn clean install -f SysAsistenciaAn/pom.xml"
+                    sh "mvn clean install -f SysAlmacen/pom.xml"
                 }
             }
         }
@@ -33,7 +33,7 @@ pipeline {
             steps {
                 timeout(time: 4, unit: 'MINUTES'){
                     withSonarQubeEnv('sonarqube'){
-                        sh "mvn org.sonarsource.scanner.maven:sonar-maven-plugin:3.9.0.2155:sonar -Pcoverage -f SysAsistenciaAn/pom.xml"
+                        sh "mvn org.sonarsource.scanner.maven:sonar-maven-plugin:3.9.0.2155:sonar -Pcoverage -f SysAlmacen/pom.xml"
                     }
                 }
             }
@@ -43,14 +43,18 @@ pipeline {
 
                 sleep(10) //seconds
 
-                timeout(time: 2, unit: 'MINUTES'){
+                timeout(time: 4, unit: 'MINUTES'){
                     waitForQualityGate abortPipeline: true
                 }
             }
         }
         stage('Deploy') {
             steps {
-                echo "mvn spring-boot:run -f SysAsistenciaAn/pom.xml"
+			    timeout(time: 8, unit: 'MINUTES'){
+					// Ejecutar mvn spring-boot:run
+					echo "mvn spring-boot:run -f SysAlmacen/pom.xml"
+                }			
+                //echo "mvn spring-boot:run -f SysAlmacen/pom.xml"
             }
         }
     }

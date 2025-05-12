@@ -76,7 +76,11 @@ public class UsuarioServiceImp extends CrudGenericoServiceImp<Usuario, Long> imp
             } break;
         }
 
-     
+        /*UsuarioRol u=new UsuarioRol();
+        u.setRol(r);
+        u.setUsuario(savedUser);
+        iurService.save(u);
+        */
 
         iurService.save(UsuarioRol.builder()
                 .usuario(savedUser)

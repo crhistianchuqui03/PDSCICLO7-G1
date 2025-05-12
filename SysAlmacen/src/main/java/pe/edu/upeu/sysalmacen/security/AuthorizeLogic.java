@@ -19,7 +19,7 @@ public class AuthorizeLogic {
             default -> "ROOT";
         };
 
-        String [] = methodRole.split(",");
+        String methodRoles[] = methodRole.split(",");
 
         Authentication auth = SecurityContextHolder.getContext().getAuthentication();
         log.info("Username is: " + auth.getName());
